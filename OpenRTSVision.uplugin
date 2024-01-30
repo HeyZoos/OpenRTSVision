@@ -1,17 +1,29 @@
 {
-	"FileVersion": 3,
-	"Version": 1,
-	"VersionName": "1.0",
-	"FriendlyName": "OpenRTSVision",
-	"Description": "",
-	"Category": "Other",
-	"CreatedBy": "Jesus Bracho",
-	"CreatedByURL": "",
-	"DocsURL": "",
-	"MarketplaceURL": "",
-	"SupportURL": "",
 	"CanContainContent": true,
+	"Category": "Gameplay",
+	"CreatedBy": "Jesus Bracho",
+	"CreatedByURL": "https://github.com/HeyZoos",
+	"Description": "",
+	"DocsURL": "https://github.com/HeyZoos/OpenRTSVision/wiki",
+	"EnabledByDefault": true,
+	"EngineVersion": "5.3.0",
+	"FileVersion": 3,
+	"FriendlyName": "OpenRTSVision",
+	"Installed": false,
 	"IsBetaVersion": false,
 	"IsExperimentalVersion": false,
-	"Installed": false
+	"MarketplaceURL": "",
+	"Modules": [
+		{
+			"Name": "OpenRTSVision",
+			"Type": "Runtime",
+			"LoadingPhase": "Default",
+			"PlatformAllowList": [
+				"Win64"
+			]
+		}
+	],
+	"SupportURL": "https://github.com/HeyZoos/OpenRTSVision/issues",
+	"Version": 1,
+	"VersionName": "0.1.0"
 }
