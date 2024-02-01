@@ -24,6 +24,7 @@ public class OpenRTSVision : ModuleRules
 			new[]
 			{
 				"Core",
+				"Engine"
 			}
 		);
 
