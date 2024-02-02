@@ -22,14 +22,14 @@ public:
 	 * Determines if the actor can see the other actor.
 	 * This is what actually determines if another actor is visible.
 	 */
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 	virtual bool CanSee(AActor* Other) PURE_VIRTUAL(UVisionBase::CanSee, return false;);
 
 	/**
 	 * Generates a list of triangles representing the vision of the actor. This is used by
 	 * the vision manager to draw to the canvas.
 	 */
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 	virtual TArray<FCanvasUVTri> CreateTriangles() PURE_VIRTUAL(UVisionBase::CreateTriangles,
 	                                                             return TArray<FCanvasUVTri>(););
 

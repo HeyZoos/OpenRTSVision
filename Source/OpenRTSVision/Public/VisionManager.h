@@ -8,34 +8,33 @@
 #include "VisionManager.generated.h"
 
 
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class OPENRTSVISION_API UVisionManager : public UActorComponent
 {
 	GENERATED_BODY()
 
-public:	
+public:
 	// Sets default values for this component's properties
 	UVisionManager();
 
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 	bool CanSee(AActor* Other);
 
-	UPROPERTY()
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "RTS Vision")
 	class UCanvasRenderTarget2D* FogCanvasRenderTarget;
-	
-	UPROPERTY()
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "RTS Vision")
 	class UCanvasRenderTarget2D* MistCanvasRenderTarget;
 
-	UPROPERTY()
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "RTS Vision")
 	TArray<UVisionBase*> ActorVisions;
 
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
-public:	
+public:
 	// Called every frame
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
-		
+	virtual void TickComponent(float DeltaTime, ELevelTick TickType,
+	                           FActorComponentTickFunction* ThisTickFunction) override;
 };

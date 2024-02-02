@@ -13,13 +13,6 @@ UVisionManager::UVisionManager()
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
-
-	TArray<UVisionBase*> ActorVisionsContainer;
-	this->GetOwner()->GetComponents<UVisionBase>(ActorVisionsContainer);
-	this->ActorVisions = ActorVisionsContainer;
-
-	UKismetRenderingLibrary::ClearRenderTarget2D(this->GetWorld(), this->FogCanvasRenderTarget);
-	UKismetRenderingLibrary::ClearRenderTarget2D(this->GetWorld(), this->MistCanvasRenderTarget);
 }
 
 bool UVisionManager::CanSee(AActor* Other)
@@ -41,7 +34,12 @@ void UVisionManager::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// ...
+	TArray<UVisionBase*> ActorVisionsContainer;
+	this->GetOwner()->GetComponents<UVisionBase>(ActorVisionsContainer);
+	this->ActorVisions = ActorVisionsContainer;
+
+	UKismetRenderingLibrary::ClearRenderTarget2D(this->GetWorld(), this->FogCanvasRenderTarget);
+	UKismetRenderingLibrary::ClearRenderTarget2D(this->GetWorld(), this->MistCanvasRenderTarget);
 }
 
 

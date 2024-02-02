@@ -21,13 +21,12 @@ void UVisibilityManager::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// Create collider for parent
-	this->Collider = this->GetOwner()->CreateDefaultSubobject<UBoxComponent>("VisibilityManagerCollider");
-	// Convert float to vector with all values the same
 	FVector BoxColliderSizeVector = FVector(this->BoxColliderSize, this->BoxColliderSize, this->BoxColliderSize);
+	this->Collider = NewObject<UBoxComponent>(this->GetOwner(), "VisibilityManagerCollider");
 	this->Collider->SetBoxExtent(BoxColliderSizeVector);
+	this->Collider->AttachToComponent(this->GetOwner()->GetRootComponent(), FAttachmentTransformRules::KeepRelativeTransform);
+	this->Collider->RegisterComponent();
 }
-
 
 // Called every frame
 void UVisibilityManager::TickComponent(float DeltaTime, ELevelTick TickType,
@@ -39,13 +38,13 @@ void UVisibilityManager::TickComponent(float DeltaTime, ELevelTick TickType,
 
 	TArray<AActor*> OverlappingActors;
 	this->Collider->GetOverlappingActors(OverlappingActors, nullptr);
-	
+
 	if (OverlappingActors.IsEmpty())
 	{
 		return;
 	}
 
-	for ( AActor* Actor : OverlappingActors )
+	for (AActor* Actor : OverlappingActors)
 	{
 		UVisionBase* OtherActorVision = Actor->GetComponentByClass<UVisionBase>();
 

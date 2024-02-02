@@ -18,16 +18,16 @@ public:
 	// Sets default values for this component's properties
 	UVisionCone();
 
-	UPROPERTY()
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "RTS Vision")
 	USphereComponent* SphereComponent;
 
-	UPROPERTY()
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "RTS Vision")
 	float Radius;
 
-	UPROPERTY()
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "RTS Vision")
 	float ArcLengthInDegrees;
 
-	UPROPERTY()
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "RTS Vision")
 	int NumberOfPoints;
 
 	TArray<FCanvasUVTri> CreateTriangles() override;

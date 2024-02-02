@@ -21,7 +21,7 @@ public:
 	/**
 	 * The radius of the circle
 	 */
-	UPROPERTY()
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "RTS Vision")
 	float Radius;
 	
 	/**
@@ -33,7 +33,7 @@ public:
 	/**
 	 * How many triangles that make up the circle
 	 */
-	UPROPERTY()
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "RTS Vision")
 	int Resolution;
 
 	virtual bool CanSee(AActor* Other) override;

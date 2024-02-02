@@ -19,7 +19,7 @@ public:
 	UPROPERTY( EditAnywhere )
 	float BoxColliderSize = 100.0f;
 
-	UPROPERTY()
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "RTS Vision")
 	class UBoxComponent* Collider;
 
 protected:

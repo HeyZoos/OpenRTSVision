@@ -6,9 +6,17 @@
 // (TArray<FVector>) -> (TArray<FCanvasUVTri>)
 TArray<FCanvasUVTri> URTSVisionFunctionLibrary::CanvasUVTris(TArray<FVector2d> Points)
 {
+	// Make sure that points is divisible by 3 or throw an exception
+	if (Points.Num() % 3 != 0)
+	{
+		UE_LOG(LogTemp, Error, TEXT("Points must be divisible by 3"));
+		return TArray<FCanvasUVTri>();
+	}
+		
+	
 	TArray<FCanvasUVTri> Triangles;
 
-	for (int i = 0; i < Points.Num() - 2; i++)
+	for (int i = 0; i < Points.Num() - 2; i += 3)
 	{
 		FCanvasUVTri Tri;
 		Tri.V0_Pos = Points[i];
@@ -46,7 +54,7 @@ TArray<FVector2d> URTSVisionFunctionLibrary::OffsetPoints(TArray<FVector2d> Inpu
 
 	for (int i = 0; i < Input.Num(); i++)
 	{
-		Output.Add(Offset);
+		Output.Add(Offset + Input[i]);
 	}
 
 	return Output;
@@ -76,7 +84,7 @@ TArray<FVector2d> URTSVisionFunctionLibrary::PointsToTrianglesAroundCenter(TArra
 {
 	TArray<FVector2d> Output;
 
-	for (int i = 0; i < Input.Num() - 1; i += 2)
+	for (int i = 0; i < Input.Num(); i++)
 	{
 		Output.Add(Input[i]);
 		Output.Add(Center);
