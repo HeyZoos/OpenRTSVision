@@ -15,7 +15,7 @@ UVisionManager::UVisionManager()
 	PrimaryComponentTick.bCanEverTick = true;
 }
 
-bool UVisionManager::CanSee(AActor* Other)
+bool UVisionManager::CanSeeWithAnyVisionComponents(AActor* Other)
 {
 	for (auto ActorVision : this->ActorVisions)
 	{

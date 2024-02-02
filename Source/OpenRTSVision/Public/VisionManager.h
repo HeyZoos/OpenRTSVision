@@ -18,7 +18,7 @@ public:
 	UVisionManager();
 
 	UFUNCTION(BlueprintCallable)
-	bool CanSee(AActor* Other);
+	bool CanSeeWithAnyVisionComponents(AActor* Other);
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "RTS Vision")
 	class UCanvasRenderTarget2D* FogCanvasRenderTarget;

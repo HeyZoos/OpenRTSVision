@@ -3,6 +3,7 @@
 
 #include "VisibilityManager.h"
 #include "VisionBase.h"
+#include "VisionManager.h"
 
 #include "Components/BoxComponent.h"
 
@@ -46,14 +47,14 @@ void UVisibilityManager::TickComponent(float DeltaTime, ELevelTick TickType,
 
 	for (AActor* Actor : OverlappingActors)
 	{
-		UVisionBase* OtherActorVision = Actor->GetComponentByClass<UVisionBase>();
+		UVisionManager* OtherActorVision = Actor->GetComponentByClass<UVisionManager>();
 
 		if (OtherActorVision == nullptr)
 		{
 			continue;
 		}
 
-		if (OtherActorVision->CanSee(this->GetOwner()))
+		if (OtherActorVision->CanSeeWithAnyVisionComponents(this->GetOwner()))
 		{
 			this->GetOwner()->SetActorHiddenInGame(false);
 			return;
