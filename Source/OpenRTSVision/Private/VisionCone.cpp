@@ -10,11 +10,11 @@ UVisionCone::UVisionCone()
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
-	PrimaryComponentTick.bCanEverTick = true;
-
-	// ...
+	PrimaryComponentTick.bCanEverTick = false;
+	this->Radius = 200.0f;
+	this->NumberOfTriangles = 32;
+	this->ArcLengthInDegrees = 180.0f;
 }
-
 
 TArray<FCanvasUVTri> UVisionCone::CreateTriangles()
 {
@@ -22,13 +22,14 @@ TArray<FCanvasUVTri> UVisionCone::CreateTriangles()
 
 	FVector ActorLocation = this->GetOwner()->GetActorLocation();
 	FVector ActorForwardVector = this->GetOwner()->GetActorForwardVector();
-	float Angle = this->ArcLengthInDegrees / this->NumberOfPoints;
+	float Angle = this->ArcLengthInDegrees / this->NumberOfTriangles;
 
-	for (int i = 0; i < NumberOfPoints; i++)
+	// The `<=` is to make sure we get the last point
+	for (int i = 0; i <= NumberOfTriangles; i++)
 	{
 		float RotateAngle = (i * Angle) - (ArcLengthInDegrees / 2);
 		FVector Start = ActorLocation;
-		FVector End = ActorForwardVector.RotateAngleAxis(RotateAngle, FVector(0, 0, 1));
+		FVector End = ActorForwardVector.RotateAngleAxis(RotateAngle, FVector(0, 0, 1)) * this->Radius;
 		FHitResult HitResult;
 		FCollisionQueryParams CollisionParams;
 		CollisionParams.AddIgnoredActor(this->GetOwner());
@@ -45,11 +46,11 @@ TArray<FCanvasUVTri> UVisionCone::CreateTriangles()
 		}
 	}
 
-	FVector2d Center = FVector2d(ActorLocation.X, ActorLocation.Y);
-	TArray<FVector2d> TrianglePoints = URTSVisionFunctionLibrary::PointsToTrianglesAroundCenter(
-		TArray<FVector2d>(Points), Center);
-
-	return URTSVisionFunctionLibrary::CanvasUVTris(TArray<FVector2d>(TrianglePoints));
+	FVector2d ActorLocation2d = FVector2d(ActorLocation.X, ActorLocation.Y);
+	TArray<FVector2d> Points2d = URTSVisionFunctionLibrary::ConvertFVector3DsToFVector2Ds(Points);
+	Points2d = URTSVisionFunctionLibrary::OffsetPoints(Points2d, ActorLocation2d);
+	Points2d = URTSVisionFunctionLibrary::PointsToTrianglesAroundCenter(Points2d, ActorLocation2d);
+	return URTSVisionFunctionLibrary::CanvasUVTris(Points2d);
 }
 
 bool UVisionCone::CanSee(AActor* Other)
@@ -85,14 +86,8 @@ void UVisionCone::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// ...
-}
-
-
-// Called every frame
-void UVisionCone::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
-{
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-	// ...
+	this->SphereComponent = NewObject<USphereComponent>(this->GetOwner(), TEXT("VisionCodeCollider"));
+	this->SphereComponent->SetSphereRadius(this->Radius);
+	this->SphereComponent->AttachToComponent(this->GetOwner()->GetRootComponent(), FAttachmentTransformRules::KeepRelativeTransform);
+	this->SphereComponent->RegisterComponent();
 }

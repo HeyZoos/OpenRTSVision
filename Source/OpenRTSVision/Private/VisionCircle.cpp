@@ -11,8 +11,8 @@ UVisionCircle::UVisionCircle()
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
-	PrimaryComponentTick.bCanEverTick = true;
-	this->Radius = 500.0f;
+	PrimaryComponentTick.bCanEverTick = false;
+	this->Radius = 200.0f;
 	this->Resolution = 32;
 }
 
@@ -38,17 +38,8 @@ void UVisionCircle::BeginPlay()
 {
 	Super::BeginPlay();
 
-	this->SphereComponent = NewObject<USphereComponent>(this->GetOwner(), "VisibilityManagerCollider");
+	this->SphereComponent = NewObject<USphereComponent>(this->GetOwner(), "VisionCircleCollider");
 	this->SphereComponent->SetSphereRadius(this->Radius);
 	this->SphereComponent->AttachToComponent(this->GetOwner()->GetRootComponent(), FAttachmentTransformRules::KeepRelativeTransform);
 	this->SphereComponent->RegisterComponent();
-}
-
-
-// Called every frame
-void UVisionCircle::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
-{
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-	// ...
 }

@@ -18,7 +18,7 @@ public:
 	// Sets default values for this component's properties
 	UVisionCone();
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "RTS Vision")
+	UPROPERTY()
 	USphereComponent* SphereComponent;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "RTS Vision")
@@ -28,7 +28,7 @@ public:
 	float ArcLengthInDegrees;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "RTS Vision")
-	int NumberOfPoints;
+	int NumberOfTriangles;
 
 	TArray<FCanvasUVTri> CreateTriangles() override;
 
@@ -37,10 +37,4 @@ public:
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
-
-public:	
-	// Called every frame
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
-		
 };

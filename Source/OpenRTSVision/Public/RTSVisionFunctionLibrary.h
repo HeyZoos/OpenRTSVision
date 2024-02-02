@@ -32,4 +32,7 @@ public:
 
 	// (TArray<FVector2D>, FVector2D) -> (TArray<FVector2D>)
 	static TArray<FVector2d> PointsToTrianglesAroundCenter(TArray<FVector2d> Input, FVector2d Center);
+
+	// (TArray<FVector3D>) -> (TArray<FVector2D>)
+	static TArray<FVector2d> ConvertFVector3DsToFVector2Ds(TArray<FVector3d> Input);
 };
