@@ -30,8 +30,8 @@ public:
 	 * the vision manager to draw to the canvas.
 	 */
 	UFUNCTION(BlueprintCallable)
-	virtual TArray<FCanvasUVTri> CreateTriangles() PURE_VIRTUAL(UVisionBase::CreateTriangles,
-	                                                             return TArray<FCanvasUVTri>(););
+	virtual TArray<FCanvasUVTri> CreateTriangles(float Scaling) PURE_VIRTUAL(UVisionBase::CreateTriangles,
+	                                                            return TArray<FCanvasUVTri>(););
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Vision")
 	TArray<FCanvasUVTri> CanvasUVTris;
@@ -39,9 +39,4 @@ public:
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
-
-public:
-	// Called every frame
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType,
-	                           FActorComponentTickFunction* ThisTickFunction) override;
 };

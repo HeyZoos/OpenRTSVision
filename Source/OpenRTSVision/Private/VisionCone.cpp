@@ -16,7 +16,7 @@ UVisionCone::UVisionCone()
 	this->ArcLengthInDegrees = 180.0f;
 }
 
-TArray<FCanvasUVTri> UVisionCone::CreateTriangles()
+TArray<FCanvasUVTri> UVisionCone::CreateTriangles(float Scaling)
 {
 	TArray<FVector> Points;
 
@@ -50,6 +50,7 @@ TArray<FCanvasUVTri> UVisionCone::CreateTriangles()
 	TArray<FVector2d> Points2d = URTSVisionFunctionLibrary::ConvertFVector3DsToFVector2Ds(Points);
 	Points2d = URTSVisionFunctionLibrary::OffsetPoints(Points2d, ActorLocation2d);
 	Points2d = URTSVisionFunctionLibrary::PointsToTrianglesAroundCenter(Points2d, ActorLocation2d);
+	Points2d = URTSVisionFunctionLibrary::ScaleVector2ds(Points2d, Scaling);
 	return URTSVisionFunctionLibrary::CanvasUVTris(Points2d);
 }
 

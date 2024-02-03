@@ -13,7 +13,7 @@ UVisionManager::UVisionManager()
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
-	PrimaryComponentTick.bCanEverTick = true;
+	PrimaryComponentTick.bCanEverTick = false;
 }
 
 bool UVisionManager::CanSeeWithAnyVisionComponents(AActor* Other)
@@ -39,18 +39,7 @@ void UVisionManager::BeginPlay()
 	this->GetOwner()->GetComponents<UVisionBase>(ActorVisionsContainer);
 	this->ActorVisions = ActorVisionsContainer;
 
-	UKismetRenderingLibrary::ClearRenderTarget2D(this->GetWorld(), this->FogCanvasRenderTarget);
-	UKismetRenderingLibrary::ClearRenderTarget2D(this->GetWorld(), this->MistCanvasRenderTarget);
-
 	this->GlobalVisionManager = (AGlobalVisionManager*)
 		UGameplayStatics::GetActorOfClass(this->GetWorld(), AGlobalVisionManager::StaticClass());
 	this->GlobalVisionManager->RegisterVisionManager(this);
-}
-
-
-// Called every frame
-void UVisionManager::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
-{
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
 }

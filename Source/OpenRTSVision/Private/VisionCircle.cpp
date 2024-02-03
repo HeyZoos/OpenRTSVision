@@ -22,14 +22,14 @@ bool UVisionCircle::CanSee(AActor* Other)
 	return this->SphereComponent->IsOverlappingActor(Other);
 }
 
-TArray<FCanvasUVTri> UVisionCircle::CreateTriangles()
+TArray<FCanvasUVTri> UVisionCircle::CreateTriangles(float Scaling)
 {
 	FVector ActorLocation = this->GetOwner()->GetActorLocation();
 	FVector2d ActorLocation2d = FVector2d(ActorLocation.X, ActorLocation.Y);
 	TArray<FVector2d> Points = URTSVisionFunctionLibrary::CircleOfPoints(this->Radius, this->Resolution);
 	Points = URTSVisionFunctionLibrary::OffsetPoints(Points, ActorLocation2d);
 	Points = URTSVisionFunctionLibrary::PointsToTrianglesAroundCenter(Points, ActorLocation2d);
-	Points = URTSVisionFunctionLibrary::ScaleVector2ds(Points);  // TODO(jesse) Eventually I'd like to to be a config value
+	Points = URTSVisionFunctionLibrary::ScaleVector2ds(Points, Scaling);
 	return URTSVisionFunctionLibrary::CanvasUVTris(Points);
 }
 

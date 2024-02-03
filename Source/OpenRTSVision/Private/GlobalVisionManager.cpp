@@ -7,12 +7,14 @@
 #include "Engine/Canvas.h"
 #include "Engine/CanvasRenderTarget2D.h"
 #include "Kismet/KismetRenderingLibrary.h"
+#include "Tasks/Task.h"
 
 // Sets default values
 AGlobalVisionManager::AGlobalVisionManager()
 {
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+	this->Scaling = 4;
 }
 
 void AGlobalVisionManager::RegisterVisionManager(UVisionManager* VisionManager)
@@ -24,6 +26,9 @@ void AGlobalVisionManager::RegisterVisionManager(UVisionManager* VisionManager)
 void AGlobalVisionManager::BeginPlay()
 {
 	Super::BeginPlay();
+
+	UKismetRenderingLibrary::ClearRenderTarget2D(this->GetWorld(), this->FogCanvasRenderTarget);
+	UKismetRenderingLibrary::ClearRenderTarget2D(this->GetWorld(), this->MistCanvasRenderTarget);
 }
 
 // Called every frame
@@ -31,16 +36,28 @@ void AGlobalVisionManager::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	TArray<UE::Tasks::TTask<TArray<FCanvasUVTri>>> Tasks;
 	TArray<FCanvasUVTri> Triangles;
 
 	for (auto VisionManager : this->VisionManagers)
 	{
 		for (auto ActorVision : VisionManager->ActorVisions)
 		{
-			// TODO(jesse) This could be parallelized
-			TArray<FCanvasUVTri> ActorVisionTriangles = ActorVision->CreateTriangles();
-			Triangles.Append(ActorVisionTriangles);
+			Tasks.Add(
+				UE::Tasks::Launch(
+					UE_SOURCE_LOCATION,
+					[ActorVision, this]()
+					{
+						return ActorVision->CreateTriangles(this->Scaling);
+					})
+			);
 		}
+	}
+
+	UE::Tasks::Wait(Tasks);
+	for (auto Task : Tasks)
+	{
+		Triangles.Append(Task.GetResult());
 	}
 
 	{
@@ -55,7 +72,6 @@ void AGlobalVisionManager::Tick(float DeltaTime)
 			Size,
 			Context
 		);
-
 
 		Canvas->K2_DrawTriangle(
 			nullptr,
@@ -79,7 +95,6 @@ void AGlobalVisionManager::Tick(float DeltaTime)
 			Size,
 			Context
 		);
-
 
 		Canvas->K2_DrawTriangle(
 			nullptr,

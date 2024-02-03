@@ -38,7 +38,7 @@ public:
 
 	virtual bool CanSee(AActor* Other) override;
 	
-	virtual TArray<FCanvasUVTri> CreateTriangles() override;
+	virtual TArray<FCanvasUVTri> CreateTriangles(float Scaling) override;
 
 protected:
 	// Called when the game starts

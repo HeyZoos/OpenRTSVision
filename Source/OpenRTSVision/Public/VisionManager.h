@@ -22,12 +22,6 @@ public:
 	bool CanSeeWithAnyVisionComponents(AActor* Other);
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "RTS Vision")
-	class UCanvasRenderTarget2D* FogCanvasRenderTarget;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "RTS Vision")
-	class UCanvasRenderTarget2D* MistCanvasRenderTarget;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "RTS Vision")
 	TArray<UVisionBase*> ActorVisions;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "RTS Vision")
@@ -36,9 +30,4 @@ public:
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
-
-public:
-	// Called every frame
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType,
-	                           FActorComponentTickFunction* ThisTickFunction) override;
 };

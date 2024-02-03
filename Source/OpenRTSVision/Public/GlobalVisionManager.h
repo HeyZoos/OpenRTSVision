@@ -25,6 +25,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "RTS Vision")
 	class UCanvasRenderTarget2D* MistCanvasRenderTarget;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "RTS Vision")
+	float Scaling;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

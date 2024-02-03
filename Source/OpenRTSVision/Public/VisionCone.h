@@ -30,7 +30,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "RTS Vision")
 	int NumberOfTriangles;
 
-	TArray<FCanvasUVTri> CreateTriangles() override;
+	TArray<FCanvasUVTri> CreateTriangles(float Scaling) override;
 
 	bool CanSee(AActor* Other) override; 
 	
