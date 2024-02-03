@@ -35,7 +35,7 @@ TArray<FVector2d> URTSVisionFunctionLibrary::CircleOfPoints(float Radius, int Nu
 {
 	TArray<FVector2d> Points;
 
-	for (int i = 0; i < NumberOfPoints; i++)
+	for (int i = 0; i <= NumberOfPoints; i++)
 	{
 		float Angle = i * 2 * PI / NumberOfPoints;
 		float X = Radius * cos(Angle);
