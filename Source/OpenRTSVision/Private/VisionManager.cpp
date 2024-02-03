@@ -5,6 +5,7 @@
 
 #include "Engine/Canvas.h"
 #include "Engine/CanvasRenderTarget2D.h"
+#include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetRenderingLibrary.h"
 
 // Sets default values for this component's properties
@@ -40,6 +41,10 @@ void UVisionManager::BeginPlay()
 
 	UKismetRenderingLibrary::ClearRenderTarget2D(this->GetWorld(), this->FogCanvasRenderTarget);
 	UKismetRenderingLibrary::ClearRenderTarget2D(this->GetWorld(), this->MistCanvasRenderTarget);
+
+	this->GlobalVisionManager = (AGlobalVisionManager*)
+		UGameplayStatics::GetActorOfClass(this->GetWorld(), AGlobalVisionManager::StaticClass());
+	this->GlobalVisionManager->RegisterVisionManager(this);
 }
 
 
@@ -48,61 +53,4 @@ void UVisionManager::TickComponent(float DeltaTime, ELevelTick TickType, FActorC
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	TArray<FCanvasUVTri> Triangles;
-
-	for (auto ActorVision : this->ActorVisions)
-	{
-		// TODO(jesse) This could be parallelized
-		TArray<FCanvasUVTri> ActorVisionTriangles = ActorVision->CreateTriangles();
-		Triangles.Append(ActorVisionTriangles);
-	}
-
-	{
-		UKismetRenderingLibrary::ClearRenderTarget2D(this->GetWorld(), this->MistCanvasRenderTarget);
-		UCanvas* Canvas = nullptr;
-		FDrawToRenderTargetContext Context;
-		FVector2d Size = FVector2d(this->MistCanvasRenderTarget->SizeX, this->MistCanvasRenderTarget->SizeY);
-		UKismetRenderingLibrary::BeginDrawCanvasToRenderTarget(
-			this->GetWorld(),
-			this->MistCanvasRenderTarget,
-			Canvas,
-			Size,
-			Context
-		);
-
-
-		Canvas->K2_DrawTriangle(
-			nullptr,
-			Triangles
-		);
-
-		UKismetRenderingLibrary::EndDrawCanvasToRenderTarget(
-			this->GetWorld(),
-			Context
-		);
-	}
-
-	{
-		UCanvas* Canvas = nullptr;
-		FDrawToRenderTargetContext Context;
-		FVector2d Size = FVector2d(this->FogCanvasRenderTarget->SizeX, this->FogCanvasRenderTarget->SizeY);
-		UKismetRenderingLibrary::BeginDrawCanvasToRenderTarget(
-			this->GetWorld(),
-			this->FogCanvasRenderTarget,
-			Canvas,
-			Size,
-			Context
-		);
-
-
-		Canvas->K2_DrawTriangle(
-			nullptr,
-			Triangles
-		);
-
-		UKismetRenderingLibrary::EndDrawCanvasToRenderTarget(
-			this->GetWorld(),
-			Context
-		);
-	}
 }

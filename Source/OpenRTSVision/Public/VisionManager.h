@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GlobalVisionManager.h"
 #include "VisionBase.h"
 #include "Components/ActorComponent.h"
 #include "VisionManager.generated.h"
@@ -28,6 +29,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "RTS Vision")
 	TArray<UVisionBase*> ActorVisions;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "RTS Vision")
+	AGlobalVisionManager* GlobalVisionManager;
 
 protected:
 	// Called when the game starts
