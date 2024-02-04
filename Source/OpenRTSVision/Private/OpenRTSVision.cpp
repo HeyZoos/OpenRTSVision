@@ -17,4 +17,4 @@ void FOpenRTSVisionModule::ShutdownModule()
 
 #undef LOCTEXT_NAMESPACE
 	
-IMPLEMENT_MODULE(FOpenRTSVisionModule, OpenRTSCamera)
+IMPLEMENT_MODULE(FOpenRTSVisionModule, OpenRTSVision)
