@@ -85,8 +85,8 @@ TArray<FVector2d> URTSVisionFunctionLibrary::PointsToTrianglesAroundCenter(TArra
 
 	for (int i = 0; i < Input.Num() - 1; i++)
 	{
-		Output.Add(Input[i]);
 		Output.Add(Center);
+		Output.Add(Input[i]);
 		Output.Add(Input[i + 1]);
 	}
 

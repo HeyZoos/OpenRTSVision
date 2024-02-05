@@ -30,7 +30,7 @@ public:
 	 * the vision manager to draw to the canvas.
 	 */
 	UFUNCTION(BlueprintCallable)
-	virtual TArray<FCanvasUVTri> CreateTriangles(float Scaling) PURE_VIRTUAL(UVisionBase::CreateTriangles,
+	virtual TArray<FCanvasUVTri> CreateTriangles(float Scaling, ECollisionChannel VisionCollisionChannel) PURE_VIRTUAL(UVisionBase::CreateTriangles,
 	                                                            return TArray<FCanvasUVTri>(););
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Vision")

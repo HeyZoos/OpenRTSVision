@@ -12,7 +12,7 @@ UVisionCircle::UVisionCircle()
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = false;
-	this->Radius = 200.0f;
+	this->Radius = 100.0f;
 	this->Resolution = 32;
 }
 
@@ -22,7 +22,7 @@ bool UVisionCircle::CanSee(AActor* Other)
 	return this->SphereComponent->IsOverlappingActor(Other);
 }
 
-TArray<FCanvasUVTri> UVisionCircle::CreateTriangles(float Scaling)
+TArray<FCanvasUVTri> UVisionCircle::CreateTriangles(float Scaling, ECollisionChannel VisionCollisionChannel)
 {
 	FVector ActorLocation = this->GetOwner()->GetActorLocation();
 	FVector2d ActorLocation2d = FVector2d(ActorLocation.X, ActorLocation.Y);

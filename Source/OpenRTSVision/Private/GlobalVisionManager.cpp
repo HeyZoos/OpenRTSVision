@@ -15,6 +15,15 @@ AGlobalVisionManager::AGlobalVisionManager()
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	this->Scaling = 4;
+	
+	static ConstructorHelpers::FObjectFinder<UCanvasRenderTarget2D>
+		FogCanvasRenderTargetFinder(TEXT("/OpenRTSVision/CRT_Fog"));
+	
+	static ConstructorHelpers::FObjectFinder<UCanvasRenderTarget2D>
+		MistCanvasRenderTargetFinder(TEXT("/OpenRTSVision/CRT_Mist"));
+	
+	this->FogCanvasRenderTarget = FogCanvasRenderTargetFinder.Object;
+	this->MistCanvasRenderTarget = MistCanvasRenderTargetFinder.Object;
 }
 
 void AGlobalVisionManager::RegisterVisionManager(UVisionManager* VisionManager)
@@ -48,7 +57,7 @@ void AGlobalVisionManager::Tick(float DeltaTime)
 					UE_SOURCE_LOCATION,
 					[ActorVision, this]()
 					{
-						return ActorVision->CreateTriangles(this->Scaling);
+						return ActorVision->CreateTriangles(this->Scaling, this->VisionCollisionChannel);
 					})
 			);
 		}

@@ -16,7 +16,7 @@ UVisionCone::UVisionCone()
 	this->ArcLengthInDegrees = 180.0f;
 }
 
-TArray<FCanvasUVTri> UVisionCone::CreateTriangles(float Scaling)
+TArray<FCanvasUVTri> UVisionCone::CreateTriangles(float Scaling, ECollisionChannel VisionCollisionChannel)
 {
 	TArray<FVector> Points;
 
@@ -29,26 +29,31 @@ TArray<FCanvasUVTri> UVisionCone::CreateTriangles(float Scaling)
 	{
 		float RotateAngle = (i * Angle) - (ArcLengthInDegrees / 2);
 		FVector Start = ActorLocation;
-		FVector End = ActorForwardVector.RotateAngleAxis(RotateAngle, FVector(0, 0, 1)) * this->Radius;
+
+		// Rotate the ActorForwardVector around the Z-axis, then scale, and add to ActorLocation
+		FVector Direction = ActorForwardVector.RotateAngleAxis(RotateAngle, FVector(0, 0, 1));
+		GEngine->AddOnScreenDebugMessage(i, 5.0f, FColor::Red, FString::Printf(TEXT("Direction: %s"), *Direction.ToString()));
+		FVector End = ActorLocation + Direction * this->Radius;
+
 		FHitResult HitResult;
 		FCollisionQueryParams CollisionParams;
+		CollisionParams.bDebugQuery = true;
 		CollisionParams.AddIgnoredActor(this->GetOwner());
-		bool bHit = GetWorld()->LineTraceSingleByChannel(HitResult, Start, End, ECC_Visibility, CollisionParams);
+		bool bHit = GetWorld()->LineTraceSingleByChannel(HitResult, Start, End, VisionCollisionChannel, CollisionParams);
 
 		if (bHit)
 		{
 			Points.Add(HitResult.ImpactPoint);
 		}
-
 		else
 		{
 			Points.Add(End);
 		}
 	}
 
+
 	FVector2d ActorLocation2d = FVector2d(ActorLocation.X, ActorLocation.Y);
 	TArray<FVector2d> Points2d = URTSVisionFunctionLibrary::ConvertFVector3DsToFVector2Ds(Points);
-	Points2d = URTSVisionFunctionLibrary::OffsetPoints(Points2d, ActorLocation2d);
 	Points2d = URTSVisionFunctionLibrary::PointsToTrianglesAroundCenter(Points2d, ActorLocation2d);
 	Points2d = URTSVisionFunctionLibrary::ScaleVector2ds(Points2d, Scaling);
 	return URTSVisionFunctionLibrary::CanvasUVTris(Points2d);

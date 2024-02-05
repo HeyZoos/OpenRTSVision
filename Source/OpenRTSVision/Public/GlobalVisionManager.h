@@ -28,6 +28,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "RTS Vision")
 	float Scaling;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "RTS Vision")
+	TEnumAsByte<ECollisionChannel> VisionCollisionChannel;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

@@ -30,9 +30,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "RTS Vision")
 	int NumberOfTriangles;
 
-	TArray<FCanvasUVTri> CreateTriangles(float Scaling) override;
+	virtual TArray<FCanvasUVTri> CreateTriangles(float Scaling, ECollisionChannel VisionCollisionChannel) override;
 
-	bool CanSee(AActor* Other) override; 
+	virtual bool CanSee(AActor* Other) override; 
 	
 protected:
 	// Called when the game starts
