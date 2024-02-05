@@ -32,7 +32,6 @@ TArray<FCanvasUVTri> UVisionCone::CreateTriangles(float Scaling, ECollisionChann
 
 		// Rotate the ActorForwardVector around the Z-axis, then scale, and add to ActorLocation
 		FVector Direction = ActorForwardVector.RotateAngleAxis(RotateAngle, FVector(0, 0, 1));
-		GEngine->AddOnScreenDebugMessage(i, 5.0f, FColor::Red, FString::Printf(TEXT("Direction: %s"), *Direction.ToString()));
 		FVector End = ActorLocation + Direction * this->Radius;
 
 		FHitResult HitResult;
